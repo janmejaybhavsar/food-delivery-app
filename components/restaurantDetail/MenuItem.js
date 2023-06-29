@@ -1,41 +1,9 @@
 import React from 'react'
-import { View, Text, StyleSheet, Image, ScrollView } from 'react-native'
+import { View, Text, StyleSheet, Image, ScrollView, SafeAreaView } from 'react-native'
 import { Divider } from 'react-native-elements/dist/divider/Divider';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import { useDispatch, useSelector } from 'react-redux';
 
-const foods = [
-    {
-        title: "Lasagna",
-        description: "With butter lettuce, tomato and sauce bechamel",
-        price: "$13.50",
-        image: "https://www.modernhoney.com/wp-content/uploads/2019/08/Classic-Lasagna-14-scaled.jpg",
-    },
-    {
-        title: "Tandoori Chicken",
-        description: "Amazing Indian dish with tenderloin chicken off the sizzles 🔥",
-        price: "$19.20",
-        image: "https://i.ytimg.com/vi/BKxGodX9NGg/maxresdefault.jpg",
-    },
-    {
-        title: "Chilaquiles",
-        description: "Chilaquiles with cheese and sauce. A delicious mexican dish 🇲🇽",
-        price: "$14.50",
-        image: "https://www.isabeleats.com/wp-content/uploads/2023/03/chilaquiles-rojos-small-11.jpg",
-    },
-    {
-        title: "Chicken Caesar Salad",
-        description: "One can never go wrong with a chicken caesar salad.",
-        price: "$21.50",
-        image: "https://www.jessicagavin.com/wp-content/uploads/2022/06/chicken-caesar-salad-28-1200.jpg",
-    },
-    {
-        title: "Quesadilla",
-        description: "Chicken Quesadilla with cheese and sauce. ",
-        price: "$13.50",
-        image: "https://www.cookingclassy.com/wp-content/uploads/2019/07/quesadillas-21.jpg",
-    },
-]
 const styles = StyleSheet.create({
     menuItemStyle: {
         flexDirection: "row",
@@ -48,7 +16,7 @@ const styles = StyleSheet.create({
     },
 })
         
-export default function MenuItem({restaurantName}) {
+export default function MenuItem({restaurantName, foods, hideCheckbox, marginLeft}) {
     const dispatch = useDispatch();
     const selectItem = (item, checkboxValue) => dispatch({
         type: "ADD_TO_CART",
@@ -61,14 +29,17 @@ export default function MenuItem({restaurantName}) {
     {foods.map((food, index) => (
     <View key={index}>
         <View style={styles.menuItemStyle}>
+            { hideCheckbox ? (
+            <></>) : (
             <BouncyCheckbox
             iconStyle={{ borderColor: "lightgray", borderRadius: 0 }}
             fillColor="green"
             onPress={(checkboxValue) => selectItem(food, checkboxValue)}
             isChecked={isFoodInCart(food, cartItems)}
             />
+            )}
             <FoodInfo food={food} />
-            <FoodImage food={food} />
+            <FoodImage food={food} marginLeft={marginLeft ? marginLeft : 0} />
         </View>
         <Divider width={0.5} orientation='vertical' style={{marginHorizontal:20}} />
     </View>
@@ -85,7 +56,7 @@ const FoodInfo = (props) => (
     </View>
 )
 
-const FoodImage = (props) => (
+const FoodImage = ({marginLeft, ...props}) => (
     <View>
       <Image
         source={{ uri: props.food.image }}
@@ -93,6 +64,7 @@ const FoodImage = (props) => (
           width: 55,
           height: 55,
           borderRadius: 8,
+          marginLeft: marginLeft,
         }}
       />
     </View>

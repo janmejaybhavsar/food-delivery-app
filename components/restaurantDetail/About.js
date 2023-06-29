@@ -1,4 +1,4 @@
-import { View, Text, Image } from 'react-native'
+import { View, Text, Image, SafeAreaView } from 'react-native'
 import React from 'react'
 
 export default function About(props) {
@@ -6,11 +6,11 @@ export default function About(props) {
   const formattedCategories = categories.map((cat) => cat.title).join(" • ")
   const description = `${formattedCategories} ${price ? " • " + price : ""} • 🎫 • ${rating} ⭐ (${reviews}+)`
   return (
-    <View>
+    <SafeAreaView style={{marginTop:30}}>
       <RestaurantImage image={image} />
       <RestaurantName name={name} />
       <RestaurantDescription description={description} />
-    </View>
+    </SafeAreaView>
   )
 }
 

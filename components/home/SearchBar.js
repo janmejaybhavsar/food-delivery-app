@@ -43,6 +43,9 @@ export default function SearchBar({cityHandler}) {
             </View>
         )}
       />
+      <View style={{justifyContent:"center", marginRight:8}}>
+        <AntDesign name='filter' size={20} style={{marginRight:6}} />
+      </View>
     </View>
   )
 }
